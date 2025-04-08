@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -16,6 +15,8 @@
     }
     h1 {
       color: #e91e63;
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
     .card {
       width: 300px;
@@ -30,21 +31,98 @@
       color: #444;
       cursor: pointer;
       margin-top: 2rem;
-      transition: transform 0.4s ease-in-out;
+      perspective: 1000px;
     }
-    .card:hover {
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card.flipped .card-inner {
       transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+      font-size: 1.2rem;
+    }
+    .card-front {
+      background: #ffc1e3;
+    }
+    .card-back {
+      background: #fff;
+      transform: rotateY(180deg);
+      padding: 1rem;
+      text-align: center;
     }
     .footer {
       margin-top: 3rem;
       font-size: 0.9rem;
       color: #aaa;
     }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #e91e63;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>💖 甜蜜心動挑戰</h1>
-  <div class="card">點我翻牌 ✨</div>
-  <div class="footer">更多互動功能開發中 · 敬請期待</div>
+  <div class="card" onclick="flipCard()">
+    <div class="card-inner">
+      <div class="card-front">點我抽卡 ✨</div>
+      <div class="card-back" id="card-content">請點擊抽卡</div>
+    </div>
+  </div>
+  <button onclick="drawCard()">再抽一張</button>
+  <div class="footer">任務卡數量：36 張 · 已抽：<span id="drawn-count">0</span></div>
+
+  <script>
+    const tasks = [
+      "一起在草地上野餐 🌳🥪",
+      "兩人肩並肩看星星 ✨",
+      "餵對方吃鹽酥雞 🍗",
+      "躲進棉被講悄悄話 🛌",
+      "交換一件小禮物 🎁",
+      "擁抱10秒不准鬆手 🤗",
+      "彼此寫一段悄悄話 💌",
+      "一起在湖邊散步 🌅",
+      "閉上眼親親 😘",
+      "幫對方按摩肩膀 💆",
+      "你說我畫猜一個字 🖌️",
+      "一起喝同一杯珍奶 🧋",
+      // ...可擴充更多...
+    ];
+    let drawnCount = 0;
+
+    function drawCard() {
+      const index = Math.floor(Math.random() * tasks.length);
+      const card = document.querySelector('.card');
+      const content = document.getElementById('card-content');
+      content.textContent = tasks[index];
+      card.classList.add('flipped');
+      drawnCount++;
+      document.getElementById('drawn-count').textContent = drawnCount;
+    }
+
+    function flipCard() {
+      const card = document.querySelector('.card');
+      card.classList.toggle('flipped');
+    }
+  </script>
 </body>
 </html>
