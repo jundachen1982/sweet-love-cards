@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>甜蜜心動挑戰</title>
   <style>
     body {
@@ -12,95 +13,88 @@
       padding: 2rem;
     }
     h1 {
-      color: #d81b60;
+      color: #e91e63;
     }
-    .buttons {
-      margin: 1rem 0;
-    }
-    button {
-      margin: 0.5rem;
-      padding: 0.8rem 1.2rem;
-      border: none;
+    .category {
+      margin: 1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 30px;
+      border: none;
       background-color: #f8a5c2;
       color: white;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
     }
-    .card-box {
-      margin: 2rem auto;
-      padding: 2rem;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 400px;
-      display: none;
-    }
-    .task-img {
-      width: 200px;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-    #sweetWall {
+    #card {
       margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: inline-block;
+      min-height: 320px;
     }
-    .completed-task {
-      background: #ffeef5;
+    #card img {
+      max-width: 300px;
+      border-radius: 12px;
+    }
+    #task {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: #b00050;
+    }
+    .complete-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #fbc2d7;
+      border: none;
       border-radius: 10px;
-      padding: 0.5rem;
-      margin: 0.5rem;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <h1>💖 甜蜜心動挑戰</h1>
-  <p>選擇一張卡片抽取今晚的任務...</p>
-  <div class="buttons">
-    <button onclick="drawCard('warm')">暖身卡</button>
-    <button onclick="drawCard('sweet')">甜觸卡</button>
-    <button onclick="drawCard('spicy')">挑逗卡</button>
+  <p>選擇一張卡片來抽取今晚的任務…</p>
+  <div>
+    <button class="category" onclick="drawCard('warm')">暖身卡</button>
+    <button class="category" onclick="drawCard('sweet')">甜觸卡</button>
+    <button class="category" onclick="drawCard('hot')">挑逗卡</button>
   </div>
-
-  <div class="card-box" id="cardBox">
-    <img src="https://via.placeholder.com/200" alt="任務插圖" class="task-img" id="taskImage">
-    <h2 id="taskText"></h2>
-    <button onclick="completeTask()">我完成了</button>
+  <div id="card">
+    <img id="card-img" src="" style="display:none"/>
+    <div id="task"></div>
+    <button class="complete-btn" style="display:none" onclick="completeTask()">我完成了</button>
   </div>
-
-  <h3>甜蜜牆</h3>
-  <div id="sweetWall"></div>
-
   <script>
-    const tasks = {
+    const cards = {
       warm: [
-        { text: "擁抱對方 30 秒", image: "hug.png" },
-        { text: "一起看一段童年影片", image: "video.png" }
+        { img: "hug_card.png", task: "擁抱對方 30 秒" },
+        { img: "look_star.png", task: "肩並肩一起看星星 10 分鐘" },
+        { img: "walk_lake.png", task: "一起湖邊散步，聊聊你最喜歡的回憶" }
       ],
       sweet: [
-        { text: "親親額頭 10 秒", image: "kiss.png" },
-        { text: "對對方說一句最喜歡的話", image: "saylove.png" }
+        { img: "picnic.png", task: "在草地上野餐並說出彼此三個優點" },
+        { img: "kiss_card.png", task: "親親對方額頭與鼻尖各一次" }
       ],
-      spicy: [
-        { text: "對方耳邊輕語情話", image: "whisper.png" },
-        { text: "一起玩一個親密小遊戲", image: "game.png" }
+      hot: [
+        { img: "wink_card.png", task: "對對方挑逗地眨眼並低聲說句情話" },
+        { img: "massage_card.png", task: "幫對方按摩肩膀或背部 3 分鐘" }
       ]
     };
 
     function drawCard(type) {
-      const options = tasks[type];
-      const random = options[Math.floor(Math.random() * options.length)];
-      document.getElementById('taskText').textContent = random.text;
-      document.getElementById('taskImage').src = random.image;
-      document.getElementById('cardBox').style.display = 'block';
+      const category = cards[type];
+      const card = category[Math.floor(Math.random() * category.length)];
+      document.getElementById("card-img").src = card.img;
+      document.getElementById("card-img").style.display = "block";
+      document.getElementById("task").innerText = card.task;
+      document.querySelector(".complete-btn").style.display = "inline-block";
     }
 
     function completeTask() {
-      const taskText = document.getElementById('taskText').textContent;
-      const sweetWall = document.getElementById('sweetWall');
-      const taskDiv = document.createElement('div');
-      taskDiv.className = 'completed-task';
-      taskDiv.textContent = `✔ ${taskText}`;
-      sweetWall.appendChild(taskDiv);
+      alert("太棒了！今晚更加甜蜜了 💞");
     }
   </script>
 </body>
